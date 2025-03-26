@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise Calorie Calculator</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-color: #f9f9f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        .result {
+            display: none;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        
+        .activity-suggestions {
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            margin-top: 10px;
+            padding: 15px;
+        }
+        
+        .activity-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .activity-tag {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Exercise Calorie Calculator</h1>
+            
+            <form id="calorieForm">
+                <div>
+                    <label for="activityInput">Activity (comma-separated for multiple):</label>
+                    <input type="text" id="activityInput" placeholder="e.g. Cycling, mountain bike" required>
+                    
+                    <div class="activity-suggestions">
+                        <p>Popular activities:</p>
+                        <div class="activity-list" id="activitySuggestions">
+                            <span class="activity-tag">Running</span>
+                            <span class="activity-tag">Cycling</span>
+                            <span class="activity-tag">Swimming</span>
+                            <span class="activity-tag">Walking</span>
+                            <span class="activity-tag">Hiking</span>
+                            <span class="activity-tag">Basketball</span>
+                            <span class="activity-tag">Tennis</span>
+                            <span class="activity-tag">Weight lifting</span>
+                            <span class="activity-tag">Yoga</span>
+                            <span class="activity-tag">Dancing</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label for="weightInput">Weight (lbs):</label>
+                    <input type="number" id="weightInput" min="80" max="300" placeholder="Enter your weight in pounds" required>
+                </div>
+                
+                <button type="submit">Calculate Calories Burned</button>
+            </form>
+            
+            <div class="result" id="resultDisplay">
+                <!-- Results will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample model for demonstration purposes
+        // In a real application, you would use the trained model or an API
+        // This is a simplified simulation of your ML model
+        function simulateModel(activity, weight) {
+            // Simple calculation based on activity and weight
+            // In reality, this would use your trained model
+            const activityList = activity.toLowerCase().split(", ");
+            
+            let baseCalories = 0;
+            
+            if (activityList.includes("running")) baseCalories += 600;
+            if (activityList.includes("cycling")) baseCalories += 500;
+            if (activityList.includes("swimming")) baseCalories += 550;
+            if (activityList.includes("walking")) baseCalories += 300;
+            if (activityList.includes("hiking")) baseCalories += 450;
+            if (activityList.includes("basketball")) baseCalories += 580;
+            if (activityList.includes("tennis")) baseCalories += 520;
+            if (activityList.includes("weight lifting")) baseCalories += 400;
+            if (activityList.includes("yoga")) baseCalories += 280;
+            if (activityList.includes("dancing")) baseCalories += 380;
+            if (activityList.includes("mountain bike")) baseCalories += 120;
+            
+            // If no specific activity matched, use a default value
+            if (baseCalories === 0) {
+                baseCalories = 350; // Default calories for unknown activities
+            }
+            
+            // Adjust based on weight
+            const weightFactor = weight / 155; // Normalized to 155 lbs
+            
+            return Math.round(baseCalories * weightFactor);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('calorieForm');
+            const resultDisplay = document.getElementById('resultDisplay');
+            const activityInput = document.getElementById('activityInput');
+            const activityTags = document.querySelectorAll('.activity-tag');
+            
+            // Add activity tags to input when clicked
+            activityTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    if (activityInput.value === '') {
+                        activityInput.value = tag.textContent;
+                    } else {
+                        activityInput.value += ', ' + tag.textContent;
+                    }
+                });
+            });
+            
+            // Form submission handler
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const activity = activityInput.value;
+                const weight = parseFloat(document.getElementById('weightInput').value);
+                
+                if (!activity || isNaN(weight)) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // In a real application, this would call your Python model
+                // Here we're using a simple simulation function
+                const calories = simulateModel(activity, weight);
+                
+                // Display the result
+                resultDisplay.textContent = `Estimated calories burned: ${calories} calories per hour`;
+                resultDisplay.style.display = 'block';
+                
+                // Scroll to the result
+                resultDisplay.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
